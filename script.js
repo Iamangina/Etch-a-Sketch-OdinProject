@@ -1,114 +1,58 @@
-const container= document.querySelector('.container');
-const btnColor= document.querySelector('.color');
-const btnSize= document.querySelector('.size');
-const btnReset= document.querySelector('.reset');
+const container = document.querySelector('.container');
+const btnColor = document.querySelector('.color');
+const btnSize = document.querySelector('.size');
+const btnReset = document.querySelector('.reset');
 
-let value= 816;
-let small=true;
-for(let i=0; i<value; i++){
+let small = true;
+let isBlack = true;
 
-let box =document.createElement('div');
-box.classList.add('box');
-container.appendChild(box);
-box.style.width= `20px`;
-box.style.height= `20px`;
+function createGrid(size, boxSize) {
+    clearBoxes();
+    for (let i = 0; i < size; i++) {
+        let box = document.createElement('div');
+        box.classList.add('box');
+        box.style.width = `${boxSize}px`;
+        box.style.height = `${boxSize}px`;
+        container.appendChild(box);
 
-box.addEventListener('mouseover', function(){
-    box.style.backgroundColor= `rgb(37, 37, 37)`;
-})
-btnReset.addEventListener('click', function(){
-    box.style.backgroundColor= ``;
-})
-let black= true;
-btnColor.addEventListener('click', function(){
-    box.style.backgroundColor= ``;
-    if (black){
-    let r= Math.floor(Math.random()*256);
-    let g= Math.floor(Math.random()*256);
-    let b= Math.floor(Math.random()*256);
-    black= false;
-    box.addEventListener('mouseover', function(){
-        box.style.backgroundColor= (`rgb(${r}, ${g}, ${b}`);
-    })} else if (!black){
-        black= true;
-        box.addEventListener('mouseover', function(){
-            box.style.backgroundColor= `rgb(37, 37, 37)`;
-        })}
-    })
-}  
+        box.addEventListener('mouseover', () => {
+            box.style.backgroundColor = isBlack ? 'rgb(37, 37, 37)' : getRandomColor();
+        });
+    }
+}
+
+function clearColors() {
+    const boxes = document.querySelectorAll('.box');
+    boxes.forEach(box => box.style.backgroundColor = '');
+}
+
+function getRandomColor() {
+    const r = Math.floor(Math.random() * 256);
+    const g = Math.floor(Math.random() * 256);
+    const b = Math.floor(Math.random() * 256);
+    return `rgb(${r}, ${g}, ${b})`;
+}
+
 function clearBoxes() {
     container.innerHTML = '';
 }
 
-btnSize.addEventListener('click', function(){
-    clearBoxes();
-    if(small){
-        let value= 13056;
-        small=false;
+btnColor.addEventListener('click', () => {
+    isBlack = !isBlack;
+    clearColors(); 
+});
 
-for(let i=0; i<value; i++){
+btnReset.addEventListener('click', () => {
+    clearColors();
+});
 
-let box =document.createElement('div');
-box.classList.add('box');
-container.appendChild(box);
-box.style.width= `5px`;
-box.style.height= `5px`;
-
-box.addEventListener('mouseover', function(){
-    btnReset.addEventListener('click', function(){
-        box.style.backgroundColor= ``;
-    })
-    box.style.backgroundColor= `rgb(37, 37, 37)`;
-})
-let black= true;
-btnColor.addEventListener('click', function(){
-    box.style.backgroundColor= ``;
-    if (black){
-    let r= Math.floor(Math.random()*256);
-    let g= Math.floor(Math.random()*256);
-    let b= Math.floor(Math.random()*256);
-    black= false;
-    box.addEventListener('mouseover', function(){
-        box.style.backgroundColor= (`rgb(${r}, ${g}, ${b}`);
-    })} else if (!black){
-        black= true;
-        box.addEventListener('mouseover', function(){
-            box.style.backgroundColor= `rgb(37, 37, 37)`;
-        })}
-})
-} 
-}
-    else if (!small){
-        let value= 816;
-        small=true;
-for(let i=0; i<value; i++){
-
-let box =document.createElement('div');
-box.classList.add('box');
-container.appendChild(box);
-box.style.width= `20px`;
-box.style.height= `20px`;
-
-box.addEventListener('mouseover', function(){
-    box.style.backgroundColor= `rgb(37, 37, 37)`;
-})
-let black= true;
-btnColor.addEventListener('click', function(){
-    box.style.backgroundColor= ``;
-    if (black){
-    let r= Math.floor(Math.random()*256);
-    let g= Math.floor(Math.random()*256);
-    let b= Math.floor(Math.random()*256);
-    black= false;
-    box.addEventListener('mouseover', function(){
-        box.style.backgroundColor= (`rgb(${r}, ${g}, ${b}`);
-    })} else if (!black){
-        black= true;
-        box.addEventListener('mouseover', function(){
-            box.style.backgroundColor= `rgb(37, 37, 37)`;
-        })}
-    })
-}  
+btnSize.addEventListener('click', () => {
+    if (small) {
+        createGrid(13056, 5);  
+    } else {
+        createGrid(816, 20);   
     }
-})
-    
+    small = !small;
+});
+
+createGrid(816, 20);
